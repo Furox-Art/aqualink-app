@@ -28,6 +28,7 @@ import LoadingSkeleton from 'common/LoadingSkeleton';
 import { GaAction, GaCategory, trackButtonClick } from 'utils/google-analytics';
 import featuredImageLoading from '../../../../assets/img/loading-image.svg';
 import chartLoading from '../../../../assets/img/chart_skeleton.png';
+import { buildSiteDetailsUrl } from './siteDetailsUrl';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardWrapper: ({ imageUrl, loading }: SelectedSiteCardContentStyleProps) => ({
@@ -127,6 +128,9 @@ function SelectedSiteCardContent({
   const theme = useTheme();
   const location = useLocation();
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const siteDetailsUrl = site
+    ? buildSiteDetailsUrl(site.id, historicalDate)
+    : '';
   const {
     bottomTemperature,
     satelliteTemperature,
@@ -259,10 +263,7 @@ function SelectedSiteCardContent({
               height="100%"
             >
               {site && imageUrl && (
-                <Link
-                  to={`/sites/${site.id}`}
-                  state={{ from: location.pathname }}
-                >
+                <Link to={siteDetailsUrl} state={{ from: location.pathname }}>
                   <CardMedia
                     className={classNames(
                       classes.cardImage,
@@ -311,7 +312,7 @@ function SelectedSiteCardContent({
                       <Chip
                         live
                         liveText="LIVE VIDEO"
-                        to={`/sites/${site.id}`}
+                        to={siteDetailsUrl}
                         state={{ from: location.pathname }}
                         width={80}
                       />
@@ -320,7 +321,7 @@ function SelectedSiteCardContent({
                       <Button
                         className={classes.exploreButton}
                         component={Link}
-                        to={`/sites/${site.id}`}
+                        to={siteDetailsUrl}
                         state={{ from: location.pathname }}
                         onClick={onExploreButtonClick}
                         size="small"
@@ -367,7 +368,7 @@ function SelectedSiteCardContent({
                   <Chip
                     live
                     liveText="LIVE VIDEO"
-                    to={`/sites/${site.id}`}
+                    to={siteDetailsUrl}
                     state={{ from: location.pathname }}
                     width={80}
                   />

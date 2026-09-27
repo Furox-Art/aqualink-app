@@ -17,6 +17,7 @@ import { sortByDate } from 'helpers/dates';
 import siteServices from 'services/siteServices';
 import LoadingSkeleton from 'common/LoadingSkeleton';
 import SelectedSiteCardContent, { HistoricalDailyData } from './CardContent';
+import { buildSiteDetailsUrl } from './siteDetailsUrl';
 
 const featuredSiteId = process.env.REACT_APP_FEATURED_SITE_ID || '';
 
@@ -107,6 +108,9 @@ function SelectedSiteCard({ historicalDate }: SelectedSiteCardProps) {
     ) || {};
 
   const hasMedia = Boolean(featuredSurveyMedia?.url);
+  const siteDetailsUrl = site
+    ? buildSiteDetailsUrl(site.id, historicalDate)
+    : '';
 
   // If FEATURED_SITE is not setup, no card is displayed.
   if (featuredSiteId === '' && isFeatured) {
@@ -126,7 +130,7 @@ function SelectedSiteCard({ historicalDate }: SelectedSiteCardProps) {
             <Typography variant="h5" color="textSecondary">
               {isFeatured ? 'Featured Site' : 'Selected Site'}
               {!hasMedia && (
-                <Link to={`/sites/${site?.id}`}>
+                <Link to={siteDetailsUrl}>
                   <LaunchIcon className={classes.launchIcon} />
                 </Link>
               )}
